@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 class DrawerListTile extends StatelessWidget {
   final String name;
   final String imgpath;
-  final Function ontap;
+  final VoidCallback ontap;
 
-  const DrawerListTile({Key key, this.name, this.imgpath, this.ontap}) : super(key: key);
+  const DrawerListTile({super.key, required this.name, required this.imgpath, required this.ontap});
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap:ontap,
+      onTap: ontap,
       leading: Image.asset(
         "assets/${imgpath}",
         height: 30,

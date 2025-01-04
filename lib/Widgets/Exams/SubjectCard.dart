@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:randomizer/randomizer.dart';
+
 
 class SubjectCard extends StatelessWidget {
-  Randomizer randomcolor = Randomizer();
   final String subjectname;
   final String chapter;
   final String date;
@@ -10,22 +9,26 @@ class SubjectCard extends StatelessWidget {
   final String grade;
   final String mark;
 
-  SubjectCard({Key key, this.subjectname, this.chapter, this.date, this.time, this.grade, this.mark}) : super(key: key);
+  SubjectCard({
+    super.key,
+    required this.subjectname,
+    required this.chapter,
+    required this.date,
+    required this.time,
+    required this.grade,
+    required this.mark,
+  });
   @override
   Widget build(BuildContext context) {
-    final double width = MediaQuery.of(context).size.width;
     final double height = MediaQuery.of(context).size.height;
     return Container(
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(7),
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black38,
-              offset: Offset(0, 2),
-              spreadRadius: 1,
-            ),
-          ]),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(7), color: Colors.white, boxShadow: [
+        BoxShadow(
+          color: Colors.black38,
+          offset: Offset(0, 2),
+          spreadRadius: 1,
+        ),
+      ]),
       child: Padding(
         padding: const EdgeInsets.symmetric(
           vertical: 10,
@@ -41,7 +44,7 @@ class SubjectCard extends StatelessWidget {
                   width: 5,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    color: randomcolor.getrandomcolor(),
+                    color: Colors.blue,
                   ),
                   height: height * 0.1,
                 ),

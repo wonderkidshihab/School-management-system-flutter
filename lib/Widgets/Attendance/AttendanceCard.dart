@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class AttendanceCard extends StatefulWidget {
   final String starttime;
@@ -9,41 +8,35 @@ class AttendanceCard extends StatefulWidget {
   final bool attendance;
 
   const AttendanceCard(
-      {Key key,
-      this.starttime,
-      this.endtime,
-      this.subject,
-      this.staff,
-      this.attendance})
-      : super(key: key);
+      {super.key,
+      required this.starttime,
+      required this.endtime,
+      required this.subject,
+      required this.staff,
+      required this.attendance});
 
   @override
   _AttendanceCardState createState() => _AttendanceCardState();
 }
 
-class _AttendanceCardState extends State<AttendanceCard>
-    with SingleTickerProviderStateMixin {
-  Animation animation, delayedAnimation;
-  AnimationController animationController;
+class _AttendanceCardState extends State<AttendanceCard> with SingleTickerProviderStateMixin {
+  late Animation animation, delayedAnimation;
+  late AnimationController animationController;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
-    animationController =
-        AnimationController(duration: Duration(seconds: 3), vsync: this);
-    animation = Tween(begin: -1.0, end: 0.0).animate(CurvedAnimation(
-        parent: animationController, curve: Curves.fastOutSlowIn));
+    animationController = AnimationController(duration: Duration(seconds: 3), vsync: this);
+    animation =
+        Tween(begin: -1.0, end: 0.0).animate(CurvedAnimation(parent: animationController, curve: Curves.fastOutSlowIn));
 
-    delayedAnimation = Tween(begin: 1.0, end: 0.0).animate(CurvedAnimation(
-        parent: animationController,
-        curve: Interval(0.3, 0.7, curve: Curves.fastOutSlowIn)));
+    delayedAnimation = Tween(begin: 1.0, end: 0.0)
+        .animate(CurvedAnimation(parent: animationController, curve: Interval(0.3, 0.7, curve: Curves.fastOutSlowIn)));
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     animationController.dispose();
     super.dispose();
   }
@@ -54,12 +47,11 @@ class _AttendanceCardState extends State<AttendanceCard>
     animationController.forward();
     return AnimatedBuilder(
       animation: animationController,
-      builder: (BuildContext context, Widget child) {
+      builder: (BuildContext context, Widget? child) {
         return Padding(
           padding: const EdgeInsets.only(top: 8.0),
           child: Transform(
-            transform:
-                Matrix4.translationValues(delayedAnimation.value * width, 0, 0),
+            transform: Matrix4.translationValues(delayedAnimation.value * width, 0, 0),
             child: Container(
               padding: EdgeInsets.symmetric(
                 vertical: 13,
@@ -136,8 +128,7 @@ class _AttendanceCardState extends State<AttendanceCard>
                     padding: EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color:
-                          widget.attendance == true ? Colors.green : Colors.red,
+                      color: widget.attendance == true ? Colors.green : Colors.red,
                     ),
                     child: Center(
                       child: widget.attendance == true

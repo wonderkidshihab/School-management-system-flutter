@@ -7,12 +7,11 @@ class UserDetailCard extends StatefulWidget {
 
 class _UserDetailCardState extends State<UserDetailCard>
     with SingleTickerProviderStateMixin {
-  Animation animation, delayedAnimation, muchDelayedAnimation, LeftCurve;
-  AnimationController animationController;
+  late Animation animation, delayedAnimation, muchDelayedAnimation, LeftCurve;
+  late AnimationController animationController;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     animationController =
@@ -30,7 +29,6 @@ class _UserDetailCardState extends State<UserDetailCard>
   }
  @override
   void dispose() {
-    // TODO: implement dispose
     animationController.dispose();
     super.dispose();
   }
@@ -40,7 +38,7 @@ class _UserDetailCardState extends State<UserDetailCard>
     final double height = MediaQuery.of(context).size.height;
     return AnimatedBuilder(
       animation: animationController,
-      builder: (BuildContext context, Widget child) {
+      builder: (BuildContext context, Widget? child) {
         return Padding(
           padding: const EdgeInsets.fromLTRB(10.0, 5, 10, 3),
           child: Container(

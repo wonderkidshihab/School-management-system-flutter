@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:school_management/Widgets/Attendance/AttendanceCard.dart';
+import 'package:mkdreams/widgets/Attendance/AttendanceCard.dart';
 
 class TodayAttendance extends StatefulWidget {
   @override
@@ -12,19 +12,20 @@ class _TodayAttendanceState extends State<TodayAttendance> {
     return Scaffold(
       body: Column(
         children: [
-         AttendanceCard(attendance: true,
-         endtime: "10 AM",
-         staff: "Deepak",
-         starttime: "9 AM",
-         subject: "English",
-         ),
-         AttendanceCard(attendance: false,
-         endtime: "10 AM",
-         staff: "Deepak",
-         starttime: "9 AM",
-         subject: "English",
-         ),
-          
+          AttendanceCard(
+            attendance: true,
+            endtime: "10 AM",
+            staff: "Deepak",
+            starttime: "9 AM",
+            subject: "English",
+          ),
+          AttendanceCard(
+            attendance: false,
+            endtime: "10 AM",
+            staff: "Deepak",
+            starttime: "9 AM",
+            subject: "English",
+          ),
         ],
       ),
     );

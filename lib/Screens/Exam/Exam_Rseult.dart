@@ -1,40 +1,30 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
-import 'package:randomizer/randomizer.dart';
-
-import 'package:school_management/Widgets/AppBar.dart';
-import 'package:school_management/Widgets/BouncingButton.dart';
-import 'package:school_management/Widgets/Exams/SubjectCard.dart';
-import 'package:school_management/Widgets/MainDrawer.dart';
+import 'package:mkdreams/widgets/AppBar.dart';
+import 'package:mkdreams/widgets/BouncingButton.dart';
+import 'package:mkdreams/widgets/Exams/SubjectCard.dart';
+import 'package:mkdreams/widgets/MainDrawer.dart';
 
 class ExamResult extends StatefulWidget {
   @override
   _ExamResultState createState() => _ExamResultState();
 }
 
-class _ExamResultState extends State<ExamResult>
-    with SingleTickerProviderStateMixin {
-  Animation animation, delayedAnimation, muchDelayedAnimation, LeftCurve;
-  AnimationController animationController;
-  Randomizer randomcolor = Randomizer();
+class _ExamResultState extends State<ExamResult> with SingleTickerProviderStateMixin {
+  late Animation animation, delayedAnimation, muchDelayedAnimation, LeftCurve;
+  late AnimationController animationController;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    //SystemChrome.setEnabledSystemUIOverlays([]);
+    animationController = AnimationController(duration: Duration(seconds: 3), vsync: this);
+    animation =
+        Tween(begin: -1.0, end: 0.0).animate(CurvedAnimation(parent: animationController, curve: Curves.fastOutSlowIn));
 
-    animationController =
-        AnimationController(duration: Duration(seconds: 3), vsync: this);
-    animation = Tween(begin: -1.0, end: 0.0).animate(CurvedAnimation(
-        parent: animationController, curve: Curves.fastOutSlowIn));
+    delayedAnimation = Tween(begin: 1.0, end: 0.0)
+        .animate(CurvedAnimation(parent: animationController, curve: Interval(0.2, 0.5, curve: Curves.fastOutSlowIn)));
 
-    delayedAnimation = Tween(begin: 1.0, end: 0.0).animate(CurvedAnimation(
-        parent: animationController,
-        curve: Interval(0.2, 0.5, curve: Curves.fastOutSlowIn)));
-
-    muchDelayedAnimation = Tween(begin: -1.0, end: 0.0).animate(CurvedAnimation(
-        parent: animationController,
-        curve: Interval(0.3, 0.5, curve: Curves.fastOutSlowIn)));
+    muchDelayedAnimation = Tween(begin: -1.0, end: 0.0)
+        .animate(CurvedAnimation(parent: animationController, curve: Interval(0.3, 0.5, curve: Curves.fastOutSlowIn)));
   }
 
   @override
@@ -51,17 +41,16 @@ class _ExamResultState extends State<ExamResult>
     final double height = MediaQuery.of(context).size.height;
     return AnimatedBuilder(
         animation: animationController,
-        builder: (BuildContext context, Widget child) {
-          final GlobalKey<ScaffoldState> _scaffoldKey =
-              new GlobalKey<ScaffoldState>();
+        builder: (BuildContext context, Widget? child) {
+          final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
           return Scaffold(
               key: _scaffoldKey,
               appBar: CommonAppBar(
                 menuenabled: true,
                 notificationenabled: false,
-                title: "Exams",
+                titleString: "Exams",
                 ontap: () {
-                  _scaffoldKey.currentState.openDrawer();
+                  _scaffoldKey.currentState?.openDrawer();
                 },
               ),
               drawer: Drawer(
@@ -85,8 +74,7 @@ class _ExamResultState extends State<ExamResult>
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Transform(
-                              transform: Matrix4.translationValues(
-                                  muchDelayedAnimation.value * width, 0, 0),
+                              transform: Matrix4.translationValues(muchDelayedAnimation.value * width, 0, 0),
                               child: Text(
                                 "Exam Name",
                                 style: TextStyle(
@@ -96,8 +84,7 @@ class _ExamResultState extends State<ExamResult>
                               ),
                             ),
                             Transform(
-                              transform: Matrix4.translationValues(
-                                  delayedAnimation.value * width, 0, 0),
+                              transform: Matrix4.translationValues(delayedAnimation.value * width, 0, 0),
                               child: Padding(
                                 padding: const EdgeInsets.all(4.0),
                                 child: Text(
@@ -115,23 +102,20 @@ class _ExamResultState extends State<ExamResult>
                         height: height * 0.02,
                       ),
                       Transform(
-                        transform: Matrix4.translationValues(
-                            muchDelayedAnimation.value * width, 0, 0),
+                        transform: Matrix4.translationValues(muchDelayedAnimation.value * width, 0, 0),
                         child: DropdownSearch<String>(
                           validator: (v) => v == null ? "Please Select" : null,
-                          hint: "Please Select",
-                          mode: Mode.MENU,
-                          showSelectedItem: true,
-                          
-                          items: [
-                            "Quarterly",
-                            "half yearly",
-                            "First Revision",
-                            'Second Revision',
-                            'Third Revision',
-                            'Annual Exam'
-                          ],
-                          showClearButton: false,
+                          mode: Mode.form,
+                          items: (filter, loadProps) {
+                            return [
+                              "Quarterly",
+                              "half yearly",
+                              "First Revision",
+                              'Second Revision',
+                              'Third Revision',
+                              'Annual Exam'
+                            ];
+                          },
                           onChanged: (value) {},
                         ),
                       ),
@@ -139,8 +123,7 @@ class _ExamResultState extends State<ExamResult>
                         height: height * 0.05,
                       ),
                       Transform(
-                        transform: Matrix4.translationValues(
-                            muchDelayedAnimation.value * width, 0, 0),
+                        transform: Matrix4.translationValues(muchDelayedAnimation.value * width, 0, 0),
                         child: SubjectCard(
                           subjectname: "Language(Tamil)",
                           chapter: "1-5",
@@ -151,10 +134,9 @@ class _ExamResultState extends State<ExamResult>
                         ),
                       ),
                       Transform(
-                        transform: Matrix4.translationValues(
-                            muchDelayedAnimation.value * width, 0, 0),
+                        transform: Matrix4.translationValues(muchDelayedAnimation.value * width, 0, 0),
                         child: Padding(
-                          padding: const EdgeInsets.only(top:8.0),
+                          padding: const EdgeInsets.only(top: 8.0),
                           child: SubjectCard(
                             subjectname: "English",
                             chapter: "1-5",
@@ -165,11 +147,10 @@ class _ExamResultState extends State<ExamResult>
                           ),
                         ),
                       ),
-                       Transform(
-                        transform: Matrix4.translationValues(
-                            muchDelayedAnimation.value * width, 0, 0),
+                      Transform(
+                        transform: Matrix4.translationValues(muchDelayedAnimation.value * width, 0, 0),
                         child: Padding(
-                          padding: const EdgeInsets.only(top:8.0),
+                          padding: const EdgeInsets.only(top: 8.0),
                           child: SubjectCard(
                             subjectname: "Maths",
                             chapter: "1-5",
@@ -180,11 +161,10 @@ class _ExamResultState extends State<ExamResult>
                           ),
                         ),
                       ),
-                       Transform(
-                        transform: Matrix4.translationValues(
-                            muchDelayedAnimation.value * width, 0, 0),
+                      Transform(
+                        transform: Matrix4.translationValues(muchDelayedAnimation.value * width, 0, 0),
                         child: Padding(
-                          padding: const EdgeInsets.only(top:8.0),
+                          padding: const EdgeInsets.only(top: 8.0),
                           child: SubjectCard(
                             subjectname: "science",
                             chapter: "1-5",
@@ -195,11 +175,10 @@ class _ExamResultState extends State<ExamResult>
                           ),
                         ),
                       ),
-                       Transform(
-                        transform: Matrix4.translationValues(
-                            muchDelayedAnimation.value * width, 0, 0),
+                      Transform(
+                        transform: Matrix4.translationValues(muchDelayedAnimation.value * width, 0, 0),
                         child: Padding(
-                          padding: const EdgeInsets.only(top:8.0),
+                          padding: const EdgeInsets.only(top: 8.0),
                           child: SubjectCard(
                             subjectname: "Social Science",
                             chapter: "1-5",
@@ -219,8 +198,7 @@ class _ExamResultState extends State<ExamResult>
                           Row(
                             children: [
                               Transform(
-                                transform: Matrix4.translationValues(
-                                    muchDelayedAnimation.value * width, 0, 0),
+                                transform: Matrix4.translationValues(muchDelayedAnimation.value * width, 0, 0),
                                 child: Text(
                                   "Total Marks:",
                                   style: TextStyle(
@@ -233,8 +211,7 @@ class _ExamResultState extends State<ExamResult>
                                 width: height * 0.03,
                               ),
                               Transform(
-                                transform: Matrix4.translationValues(
-                                    delayedAnimation.value * width, 0, 0),
+                                transform: Matrix4.translationValues(delayedAnimation.value * width, 0, 0),
                                 child: Text(
                                   "490/500",
                                   style: TextStyle(
@@ -251,8 +228,7 @@ class _ExamResultState extends State<ExamResult>
                           Row(
                             children: [
                               Transform(
-                                transform: Matrix4.translationValues(
-                                    muchDelayedAnimation.value * width, 0, 0),
+                                transform: Matrix4.translationValues(muchDelayedAnimation.value * width, 0, 0),
                                 child: Text(
                                   "Overall Grade:",
                                   style: TextStyle(
@@ -265,8 +241,7 @@ class _ExamResultState extends State<ExamResult>
                                 width: height * 0.03,
                               ),
                               Transform(
-                                transform: Matrix4.translationValues(
-                                    delayedAnimation.value * width, 0, 0),
+                                transform: Matrix4.translationValues(delayedAnimation.value * width, 0, 0),
                                 child: Text(
                                   "A +",
                                   style: TextStyle(
@@ -284,8 +259,7 @@ class _ExamResultState extends State<ExamResult>
                         child: Row(
                           children: [
                             Transform(
-                              transform: Matrix4.translationValues(
-                                  muchDelayedAnimation.value * width, 0, 0),
+                              transform: Matrix4.translationValues(muchDelayedAnimation.value * width, 0, 0),
                               child: Text(
                                 "Result: ",
                                 style: TextStyle(
@@ -298,8 +272,7 @@ class _ExamResultState extends State<ExamResult>
                               width: height * 0.03,
                             ),
                             Transform(
-                              transform: Matrix4.translationValues(
-                                  delayedAnimation.value * width, 0, 0),
+                              transform: Matrix4.translationValues(delayedAnimation.value * width, 0, 0),
                               child: Text(
                                 "Pass",
                                 style: TextStyle(
@@ -317,8 +290,7 @@ class _ExamResultState extends State<ExamResult>
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Transform(
-                              transform: Matrix4.translationValues(
-                                  muchDelayedAnimation.value * width, 0, 0),
+                              transform: Matrix4.translationValues(muchDelayedAnimation.value * width, 0, 0),
                               child: Bouncing(
                                 onPress: () {},
                                 child: Container(
@@ -345,8 +317,7 @@ class _ExamResultState extends State<ExamResult>
                               ),
                             ),
                             Transform(
-                              transform: Matrix4.translationValues(
-                                  delayedAnimation.value * width, 0, 0),
+                              transform: Matrix4.translationValues(delayedAnimation.value * width, 0, 0),
                               child: Bouncing(
                                 onPress: () {},
                                 child: Container(
@@ -372,11 +343,10 @@ class _ExamResultState extends State<ExamResult>
                                 ),
                               ),
                             ),
-                         
                           ],
                         ),
                       ),
-                         SizedBox(
+                      SizedBox(
                         height: height * 0.20,
                       ),
                     ],

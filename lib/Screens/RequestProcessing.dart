@@ -17,8 +17,7 @@ class ProcessingRequest extends StatelessWidget {
               text: TextSpan(
                 children: [
                   TextSpan(
-                    text:
-                        'YOUR USERNAME AND PASSWORD IS SENT TO YOUR MAIL PLEASE CHECK YOUR EMAIL!',
+                    text: 'YOUR USERNAME AND PASSWORD IS SENT TO YOUR MAIL PLEASE CHECK YOUR EMAIL!',
                     style: TextStyle(
                       color: Colors.black,
                     ),
@@ -33,7 +32,7 @@ class ProcessingRequest extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (BuildContext context) => MyHomePage(),
+                            builder: (BuildContext context) => MyHomePage(title: ""),
                           ),
                         );
                       },

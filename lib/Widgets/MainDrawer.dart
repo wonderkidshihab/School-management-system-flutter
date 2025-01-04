@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:school_management/Screens/Attendance/Attendance.dart';
-import 'package:school_management/Screens/Exam/Exam_Rseult.dart';
-import 'package:school_management/Screens/Leave_Apply/Leave_apply.dart';
-import 'package:school_management/Screens/home.dart';
-import 'package:school_management/Widgets/DrawerListTile.dart';
+import 'package:mkdreams/Screens/Attendance/Attendance.dart';
+import 'package:mkdreams/Screens/Exam/Exam_Rseult.dart';
+import 'package:mkdreams/Screens/Leave_Apply/Leave_apply.dart';
+import 'package:mkdreams/Screens/home.dart';
+import 'package:mkdreams/widgets/DrawerListTile.dart';
 
 class MainDrawer extends StatefulWidget {
   @override
@@ -38,8 +38,7 @@ class _MainDrawerState extends State<MainDrawer> {
             );
           },
         ),
-        DrawerListTile(
-            imgpath: "classroom.png", name: "Class work", ontap: () {}),
+        DrawerListTile(imgpath: "classroom.png", name: "Class work", ontap: () {}),
         DrawerListTile(imgpath: "profile.png", name: "Profile", ontap: () {}),
         DrawerListTile(
           imgpath: "exam.png",
@@ -54,10 +53,9 @@ class _MainDrawerState extends State<MainDrawer> {
           },
         ),
         DrawerListTile(imgpath: "fee.png", name: "Fees", ontap: () {}),
-        DrawerListTile(
-            imgpath: "calendar.png", name: "Time Table", ontap: () {}),
+        DrawerListTile(imgpath: "calendar.png", name: "Time Table", ontap: () {}),
         DrawerListTile(imgpath: "library.png", name: "Library", ontap: () {}),
-        DrawerListTile(imgpath: "downloads.png", name: "Downloads"),
+        DrawerListTile(imgpath: "downloads.png", name: "Downloads", ontap: () {  },),
         DrawerListTile(imgpath: "bus.png", name: "Track ", ontap: () {}),
         DrawerListTile(
           imgpath: "leave_apply.png",
@@ -72,8 +70,7 @@ class _MainDrawerState extends State<MainDrawer> {
           },
         ),
         DrawerListTile(imgpath: "activity.png", name: "Activity", ontap: () {}),
-        DrawerListTile(
-            imgpath: "notification.png", name: "Notification", ontap: () {}),
+        DrawerListTile(imgpath: "notification.png", name: "Notification", ontap: () {}),
       ],
     );
   }

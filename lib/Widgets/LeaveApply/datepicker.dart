@@ -3,19 +3,19 @@ import 'package:flutter/material.dart';
 
 class CustomDatePicker extends StatelessWidget {
   final TextEditingController controller;
-  final Function onchanged;
-  final Function saved;
-  final Function validator;
+  final Function(String)? onchanged;
+  final Function(String?)? saved;
+  final String? Function(String?)? validator;
   final String title;
 
   const CustomDatePicker(
-      {Key key,
-      this.controller,
+      {super.key,
+      required this.controller,
       this.onchanged,
       this.saved,
       this.validator,
-      this.title})
-      : super(key: key);
+      required this.title})
+      ;
   @override
   Widget build(BuildContext context) {
     return DateTimePicker(

@@ -4,18 +4,15 @@ class Bouncing extends StatefulWidget {
   final Widget child;
   final VoidCallback onPress;
 
-  Bouncing({@required this.child, Key key, this.onPress})
-      : assert(child != null),
-        super(key: key);
+  Bouncing({required this.child, super.key, required this.onPress});
 
   @override
   _BouncingState createState() => _BouncingState();
 }
 
-class _BouncingState extends State<Bouncing>
-    with SingleTickerProviderStateMixin {
-  double _scale;
-  AnimationController _controller;
+class _BouncingState extends State<Bouncing> with SingleTickerProviderStateMixin {
+  late double _scale;
+  late AnimationController _controller;
 
   @override
   void initState() {
@@ -42,15 +39,11 @@ class _BouncingState extends State<Bouncing>
     _scale = 1 - _controller.value;
     return Listener(
       onPointerDown: (PointerDownEvent event) {
-        if (widget.onPress != null) {
-          _controller.forward();
-        }
+        _controller.forward();
       },
       onPointerUp: (PointerUpEvent event) {
-        if (widget.onPress != null) {
-          _controller.reverse();
-          widget.onPress();
-        }
+        _controller.reverse();
+        widget.onPress();
       },
       child: Transform.scale(
         scale: _scale,

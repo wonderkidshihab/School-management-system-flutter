@@ -1,12 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:school_management/Screens/Exam/Exam_Rseult.dart';
-import 'package:school_management/Widgets/AppBar.dart';
-import 'package:school_management/Widgets/BouncingButton.dart';
-import 'package:school_management/Widgets/DashboardCards.dart';
-import 'package:school_management/Widgets/MainDrawer.dart';
-import 'package:school_management/Widgets/UserDetailCard.dart';
+import 'package:mkdreams/Screens/Exam/Exam_Rseult.dart';
+import 'package:mkdreams/widgets/AppBar.dart';
+import 'package:mkdreams/widgets/BouncingButton.dart';
+import 'package:mkdreams/widgets/DashboardCards.dart';
+import 'package:mkdreams/widgets/MainDrawer.dart';
+import 'package:mkdreams/widgets/UserDetailCard.dart';
 
 import 'Attendance/Attendance.dart';
 import 'Leave_Apply/Leave_apply.dart';
@@ -17,36 +16,29 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
-  Animation animation, delayedAnimation, muchDelayedAnimation, LeftCurve;
-  AnimationController animationController;
+  late Animation animation, delayedAnimation, muchDelayedAnimation, LeftCurve;
+  late AnimationController animationController;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     Firebase.initializeApp();
-    SystemChrome.setEnabledSystemUIOverlays([]);
-    animationController =
-        AnimationController(duration: Duration(seconds: 3), vsync: this);
-    animation = Tween(begin: -1.0, end: 0.0).animate(CurvedAnimation(
-        parent: animationController, curve: Curves.fastOutSlowIn));
+    animationController = AnimationController(duration: Duration(seconds: 3), vsync: this);
+    animation =
+        Tween(begin: -1.0, end: 0.0).animate(CurvedAnimation(parent: animationController, curve: Curves.fastOutSlowIn));
 
-    delayedAnimation = Tween(begin: -1.0, end: 0.0).animate(CurvedAnimation(
-        parent: animationController,
-        curve: Interval(0.5, 1.0, curve: Curves.fastOutSlowIn)));
+    delayedAnimation = Tween(begin: -1.0, end: 0.0)
+        .animate(CurvedAnimation(parent: animationController, curve: Interval(0.5, 1.0, curve: Curves.fastOutSlowIn)));
 
-    muchDelayedAnimation = Tween(begin: -1.0, end: 0.0).animate(CurvedAnimation(
-        parent: animationController,
-        curve: Interval(0.8, 1.0, curve: Curves.fastOutSlowIn)));
+    muchDelayedAnimation = Tween(begin: -1.0, end: 0.0)
+        .animate(CurvedAnimation(parent: animationController, curve: Interval(0.8, 1.0, curve: Curves.fastOutSlowIn)));
 
-    LeftCurve = Tween(begin: -1.0, end: 0.0).animate(CurvedAnimation(
-        parent: animationController,
-        curve: Interval(0.5, 1.0, curve: Curves.easeInOut)));
+    LeftCurve = Tween(begin: -1.0, end: 0.0)
+        .animate(CurvedAnimation(parent: animationController, curve: Interval(0.5, 1.0, curve: Curves.easeInOut)));
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     animationController.dispose();
     super.dispose();
   }
@@ -54,14 +46,12 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
-    final double height = MediaQuery.of(context).size.height;
 
     animationController.forward();
     return AnimatedBuilder(
       animation: animationController,
-      builder: (BuildContext context, Widget child) {
-        final GlobalKey<ScaffoldState> _scaffoldKey =
-            new GlobalKey<ScaffoldState>();
+      builder: (BuildContext context, Widget? child) {
+        final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
         return Scaffold(
           key: _scaffoldKey,
           drawer: Drawer(
@@ -72,9 +62,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             menuenabled: true,
             notificationenabled: true,
             ontap: () {
-              _scaffoldKey.currentState.openDrawer();
+              _scaffoldKey.currentState?.openDrawer();
             },
-            title: "Dashboard",
+            titleString: "Dashboard",
           ),
           body: ListView(
             children: [
@@ -89,15 +79,13 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Transform(
-                          transform: Matrix4.translationValues(
-                              muchDelayedAnimation.value * width, 0, 0),
+                          transform: Matrix4.translationValues(muchDelayedAnimation.value * width, 0, 0),
                           child: Bouncing(
                             onPress: () {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        Attendance(),
+                                    builder: (BuildContext context) => Attendance(),
                                   ));
                             },
                             child: DashboardCard(
@@ -107,8 +95,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                           ),
                         ),
                         Transform(
-                          transform: Matrix4.translationValues(
-                              delayedAnimation.value * width, 0, 0),
+                          transform: Matrix4.translationValues(delayedAnimation.value * width, 0, 0),
                           child: Bouncing(
                             onPress: () {},
                             child: DashboardCard(
@@ -132,15 +119,13 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Transform(
-                          transform: Matrix4.translationValues(
-                              muchDelayedAnimation.value * width, 0, 0),
+                          transform: Matrix4.translationValues(muchDelayedAnimation.value * width, 0, 0),
                           child: Bouncing(
                             onPress: () {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        ExamResult(),
+                                    builder: (BuildContext context) => ExamResult(),
                                   ));
                             },
                             child: DashboardCard(
@@ -150,8 +135,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                           ),
                         ),
                         Transform(
-                          transform: Matrix4.translationValues(
-                              delayedAnimation.value * width, 0, 0),
+                          transform: Matrix4.translationValues(delayedAnimation.value * width, 0, 0),
                           child: Bouncing(
                             onPress: () {},
                             child: DashboardCard(
@@ -175,8 +159,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Transform(
-                          transform: Matrix4.translationValues(
-                              muchDelayedAnimation.value * width, 0, 0),
+                          transform: Matrix4.translationValues(muchDelayedAnimation.value * width, 0, 0),
                           child: Bouncing(
                             onPress: () {},
                             child: DashboardCard(
@@ -186,8 +169,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                           ),
                         ),
                         Transform(
-                          transform: Matrix4.translationValues(
-                              delayedAnimation.value * width, 0, 0),
+                          transform: Matrix4.translationValues(delayedAnimation.value * width, 0, 0),
                           child: Bouncing(
                             onPress: () {},
                             child: DashboardCard(
@@ -211,8 +193,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Transform(
-                          transform: Matrix4.translationValues(
-                              muchDelayedAnimation.value * width, 0, 0),
+                          transform: Matrix4.translationValues(muchDelayedAnimation.value * width, 0, 0),
                           child: Bouncing(
                             onPress: () {},
                             child: DashboardCard(
@@ -222,15 +203,13 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                           ),
                         ),
                         Transform(
-                          transform: Matrix4.translationValues(
-                              delayedAnimation.value * width, 0, 0),
+                          transform: Matrix4.translationValues(delayedAnimation.value * width, 0, 0),
                           child: Bouncing(
                             onPress: () {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        LeaveApply(),
+                                    builder: (BuildContext context) => LeaveApply(),
                                   ));
                             },
                             child: DashboardCard(

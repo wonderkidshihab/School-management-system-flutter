@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
-import 'package:school_management/Screens/LoginPage.dart';
+import 'package:mkdreams/Screens/LoginPage.dart';
 
 class SpleashScreen extends StatefulWidget {
   @override
@@ -12,11 +12,11 @@ class SpleashScreen extends StatefulWidget {
 
 class _SpleashScreenState extends State<SpleashScreen> {
   @override
-  @override
   void initState() {
     Firebase.initializeApp();
 
     Timer(Duration(seconds: 8), start);
+    super.initState();
   }
 
   Widget build(BuildContext context) {
@@ -44,7 +44,7 @@ class _SpleashScreenState extends State<SpleashScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (BuildContext context) => MyHomePage(),
+          builder: (BuildContext context) => MyHomePage(title: ""),
         ),
       );
     });

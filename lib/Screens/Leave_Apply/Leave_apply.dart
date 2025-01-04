@@ -1,62 +1,42 @@
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-
-import 'package:school_management/Widgets/AppBar.dart';
-import 'package:school_management/Widgets/BouncingButton.dart';
-import 'package:school_management/Widgets/LeaveApply/LeaveHistoryCard.dart';
-import 'package:school_management/Widgets/LeaveApply/datepicker.dart';
-import 'package:school_management/Widgets/MainDrawer.dart';
+import 'package:mkdreams/widgets/AppBar.dart';
+import 'package:mkdreams/widgets/BouncingButton.dart';
+import 'package:mkdreams/widgets/LeaveApply/LeaveHistoryCard.dart';
+import 'package:mkdreams/widgets/LeaveApply/datepicker.dart';
+import 'package:mkdreams/widgets/MainDrawer.dart';
 
 class LeaveApply extends StatefulWidget {
   @override
   _LeaveApplyState createState() => _LeaveApplyState();
 }
 
-class _LeaveApplyState extends State<LeaveApply>
-    with SingleTickerProviderStateMixin {
-  Animation animation, delayedAnimation, muchDelayedAnimation, LeftCurve;
-  AnimationController animationController;
+class _LeaveApplyState extends State<LeaveApply> with SingleTickerProviderStateMixin {
+  late Animation animation, delayedAnimation, muchDelayedAnimation, LeftCurve;
+  late AnimationController animationController;
   final searchFieldController = TextEditingController();
 
-  TextEditingController _applyleavecontroller;
-  String _applyleavevalueChanged = '';
-  String _applyleavevalueToValidate = '';
-  String _applyleavevalueSaved = '';
-
-  TextEditingController _fromcontroller;
-  String _fromvalueChanged = '';
-  String _fromvalueToValidate = '';
-  String _fromvalueSaved = '';
-
-  TextEditingController _tocontroller;
-  String _tovalueChanged = '';
-  String _tovalueToValidate = '';
-  String _tovalueSaved = '';
-
+  late TextEditingController _applyleavecontroller;
+  late TextEditingController _fromcontroller;
+  late TextEditingController _tocontroller;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     //SystemChrome.setEnabledSystemUIOverlays([]);
-    _applyleavecontroller =
-        TextEditingController(text: DateTime.now().toString());
+    _applyleavecontroller = TextEditingController(text: DateTime.now().toString());
     _fromcontroller = TextEditingController(text: DateTime.now().toString());
     _tocontroller = TextEditingController(text: DateTime.now().toString());
 
-    animationController =
-        AnimationController(duration: Duration(seconds: 3), vsync: this);
-    animation = Tween(begin: -1.0, end: 0.0).animate(CurvedAnimation(
-        parent: animationController, curve: Curves.fastOutSlowIn));
+    animationController = AnimationController(duration: Duration(seconds: 3), vsync: this);
+    animation =
+        Tween(begin: -1.0, end: 0.0).animate(CurvedAnimation(parent: animationController, curve: Curves.fastOutSlowIn));
 
-    delayedAnimation = Tween(begin: 1.0, end: 0.0).animate(CurvedAnimation(
-        parent: animationController,
-        curve: Interval(0.2, 0.5, curve: Curves.fastOutSlowIn)));
+    delayedAnimation = Tween(begin: 1.0, end: 0.0)
+        .animate(CurvedAnimation(parent: animationController, curve: Interval(0.2, 0.5, curve: Curves.fastOutSlowIn)));
 
-    muchDelayedAnimation = Tween(begin: -1.0, end: 0.0).animate(CurvedAnimation(
-        parent: animationController,
-        curve: Interval(0.3, 0.5, curve: Curves.fastOutSlowIn)));
+    muchDelayedAnimation = Tween(begin: -1.0, end: 0.0)
+        .animate(CurvedAnimation(parent: animationController, curve: Interval(0.3, 0.5, curve: Curves.fastOutSlowIn)));
   }
 
   @override
@@ -72,22 +52,19 @@ class _LeaveApplyState extends State<LeaveApply>
     animationController.forward();
     final double width = MediaQuery.of(context).size.width;
     final double height = MediaQuery.of(context).size.height;
-    final GlobalKey<ScaffoldState> _scaffoldKey =
-        new GlobalKey<ScaffoldState>();
 
     return AnimatedBuilder(
       animation: animationController,
-      builder: (BuildContext context, Widget child) {
-        final GlobalKey<ScaffoldState> _scaffoldKey =
-            new GlobalKey<ScaffoldState>();
+      builder: (BuildContext context, Widget? child) {
+        final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
         return Scaffold(
           key: _scaffoldKey,
           appBar: CommonAppBar(
             menuenabled: true,
             notificationenabled: false,
-            title: "Apply Leave",
+            titleString: "Apply Leave",
             ontap: () {
-              _scaffoldKey.currentState.openDrawer();
+              _scaffoldKey.currentState?.openDrawer();
             },
           ),
           drawer: Drawer(
@@ -112,8 +89,7 @@ class _LeaveApplyState extends State<LeaveApply>
                       height: height * 0.05,
                     ),
                     Transform(
-                      transform: Matrix4.translationValues(
-                          muchDelayedAnimation.value * width, 0, 0),
+                      transform: Matrix4.translationValues(muchDelayedAnimation.value * width, 0, 0),
                       child: Text(
                         "Apply Leave Date",
                         style: TextStyle(
@@ -139,8 +115,7 @@ class _LeaveApplyState extends State<LeaveApply>
                         child: Row(
                           children: [
                             Transform(
-                              transform: Matrix4.translationValues(
-                                  muchDelayedAnimation.value * width, 0, 0),
+                              transform: Matrix4.translationValues(muchDelayedAnimation.value * width, 0, 0),
                               child: Container(
                                 width: width * 0.75,
                                 child: DateTimePicker(
@@ -153,22 +128,11 @@ class _LeaveApplyState extends State<LeaveApply>
                                   calendarTitle: "Leave Date",
                                   confirmText: "Confirm",
                                   enableSuggestions: true,
-                                  //locale: Locale('en', 'US'),
-                                  onChanged: (val) => setState(
-                                      () => _applyleavevalueChanged = val),
-                                  validator: (val) {
-                                    setState(
-                                        () => _applyleavevalueToValidate = val);
-                                    return null;
-                                  },
-                                  onSaved: (val) => setState(
-                                      () => _applyleavevalueSaved = val),
                                 ),
                               ),
                             ),
                             Transform(
-                              transform: Matrix4.translationValues(
-                                  delayedAnimation.value * width, 0, 0),
+                              transform: Matrix4.translationValues(delayedAnimation.value * width, 0, 0),
                               child: Icon(
                                 Icons.calendar_today,
                                 color: Colors.black,
@@ -182,8 +146,7 @@ class _LeaveApplyState extends State<LeaveApply>
                       height: height * 0.03,
                     ),
                     Transform(
-                      transform: Matrix4.translationValues(
-                          muchDelayedAnimation.value * width, 0, 0),
+                      transform: Matrix4.translationValues(muchDelayedAnimation.value * width, 0, 0),
                       child: Text(
                         "Choose Leave Type",
                         style: TextStyle(
@@ -196,21 +159,11 @@ class _LeaveApplyState extends State<LeaveApply>
                       height: height * 0.02,
                     ),
                     Transform(
-                      transform: Matrix4.translationValues(
-                          delayedAnimation.value * width, 0, 0),
+                      transform: Matrix4.translationValues(delayedAnimation.value * width, 0, 0),
                       child: DropdownSearch<String>(
                         validator: (v) => v == null ? "required field" : null,
-                        hint: "Please Select Leave type",
-                        mode: Mode.MENU,
-                        showSelectedItem: true,
-                        items: [
-                          "Medical",
-                          "Family",
-                          "Sick",
-                          'Function',
-                          'Others'
-                        ],
-                        showClearButton: true,
+                        mode: Mode.form,
+                        items: (filter, loadProps) => ["Medical", "Family", "Sick", 'Function', 'Others'],
                         onChanged: print,
                       ),
                     ),
@@ -218,8 +171,7 @@ class _LeaveApplyState extends State<LeaveApply>
                       height: height * 0.05,
                     ),
                     Transform(
-                      transform: Matrix4.translationValues(
-                          muchDelayedAnimation.value * width, 0, 0),
+                      transform: Matrix4.translationValues(muchDelayedAnimation.value * width, 0, 0),
                       child: Text(
                         "Leave Date",
                         style: TextStyle(
@@ -238,70 +190,53 @@ class _LeaveApplyState extends State<LeaveApply>
                           left: 10,
                         ),
                         width: double.infinity,
-                        decoration: BoxDecoration(
-                            color: Colors.white38,
-                            borderRadius: BorderRadius.circular(5),
-                            boxShadow: [
-                              BoxShadow(
-                                offset: Offset(0, 1),
-                                color: Colors.black12,
-                              )
-                            ]),
+                        decoration:
+                            BoxDecoration(color: Colors.white38, borderRadius: BorderRadius.circular(5), boxShadow: [
+                          BoxShadow(
+                            offset: Offset(0, 1),
+                            color: Colors.black12,
+                          )
+                        ]),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Transform(
-                              transform: Matrix4.translationValues(
-                                  muchDelayedAnimation.value * width, 0, 0),
+                              transform: Matrix4.translationValues(muchDelayedAnimation.value * width, 0, 0),
                               child: Icon(
                                 Icons.calendar_today,
                                 color: Colors.black,
                               ),
                             ),
                             Transform(
-                              transform: Matrix4.translationValues(
-                                  muchDelayedAnimation.value * width, 0, 0),
+                              transform: Matrix4.translationValues(muchDelayedAnimation.value * width, 0, 0),
                               child: Padding(
                                 padding: const EdgeInsets.all(6.0),
                                 child: Container(
                                   padding: const EdgeInsets.only(left: 4.0),
                                   width: width * 0.28,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white38,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          offset: Offset(0, 1),
-                                          blurRadius: 2,
-                                          color: Colors.black26,
-                                        )
-                                      ]),
+                                  decoration: BoxDecoration(color: Colors.white38, boxShadow: [
+                                    BoxShadow(
+                                      offset: Offset(0, 1),
+                                      blurRadius: 2,
+                                      color: Colors.black26,
+                                    )
+                                  ]),
                                   child: CustomDatePicker(
                                     controller: _fromcontroller,
                                     title: "From",
-                                    onchanged: (val) =>
-                                        setState(() => _fromvalueChanged = val),
-                                    validator: (val) {
-                                      setState(
-                                          () => _fromvalueToValidate = val);
-                                      return null;
-                                    },
-                                    saved: (val) =>
-                                        setState(() => _fromvalueSaved = val),
                                   ),
                                 ),
                               ),
                             ),
                             Transform(
-                              transform: Matrix4.translationValues(
-                                  muchDelayedAnimation.value * width, 0, 0),
+                              transform: Matrix4.translationValues(muchDelayedAnimation.value * width, 0, 0),
                               child: Icon(
                                 Icons.arrow_forward,
                                 color: Colors.black,
                               ),
                             ),
                             Transform(
-                              transform: Matrix4.translationValues(
-                                  delayedAnimation.value * width, 0, 0),
+                              transform: Matrix4.translationValues(delayedAnimation.value * width, 0, 0),
                               child: Padding(
                                 padding: const EdgeInsets.all(6.0),
                                 child: Container(
@@ -320,16 +255,6 @@ class _LeaveApplyState extends State<LeaveApply>
                                   child: CustomDatePicker(
                                     controller: _tocontroller,
                                     title: "To",
-                                    onchanged: (val) => setState(() {
-                                      _tovalueChanged = val;
-                                      print(val);
-                                    }),
-                                    validator: (val) {
-                                      setState(() => _tovalueToValidate = val);
-                                      return null;
-                                    },
-                                    saved: (val) =>
-                                        setState(() => _tovalueSaved = val),
                                   ),
                                 ),
                               ),
@@ -342,8 +267,7 @@ class _LeaveApplyState extends State<LeaveApply>
                       height: height * 0.05,
                     ),
                     Transform(
-                      transform: Matrix4.translationValues(
-                          muchDelayedAnimation.value * width, 0, 0),
+                      transform: Matrix4.translationValues(muchDelayedAnimation.value * width, 0, 0),
                       child: Text(
                         "Apply Leave Date",
                         style: TextStyle(
@@ -353,8 +277,7 @@ class _LeaveApplyState extends State<LeaveApply>
                       ),
                     ),
                     Transform(
-                      transform: Matrix4.translationValues(
-                          delayedAnimation.value * width, 0, 0),
+                      transform: Matrix4.translationValues(delayedAnimation.value * width, 0, 0),
                       child: Padding(
                         padding: EdgeInsets.only(
                           top: 13,
@@ -377,8 +300,7 @@ class _LeaveApplyState extends State<LeaveApply>
                                   ? IconButton(
                                       icon: Icon(Icons.clear),
                                       onPressed: () => WidgetsBinding.instance
-                                          .addPostFrameCallback((_) =>
-                                              searchFieldController.clear()))
+                                          .addPostFrameCallback((_) => searchFieldController.clear()))
                                   : null,
                               border: InputBorder.none,
                               contentPadding: EdgeInsets.all(7),
@@ -391,8 +313,7 @@ class _LeaveApplyState extends State<LeaveApply>
                       height: height * 0.05,
                     ),
                     Transform(
-                      transform: Matrix4.translationValues(
-                          muchDelayedAnimation.value * width, 0, 0),
+                      transform: Matrix4.translationValues(muchDelayedAnimation.value * width, 0, 0),
                       child: Text(
                         "Attach Document",
                         style: TextStyle(
@@ -402,8 +323,7 @@ class _LeaveApplyState extends State<LeaveApply>
                       ),
                     ),
                     Transform(
-                      transform: Matrix4.translationValues(
-                          delayedAnimation.value * width, 0, 0),
+                      transform: Matrix4.translationValues(delayedAnimation.value * width, 0, 0),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: InkWell(
@@ -418,8 +338,7 @@ class _LeaveApplyState extends State<LeaveApply>
                       ),
                     ),
                     Transform(
-                      transform: Matrix4.translationValues(
-                          delayedAnimation.value * width, 0, 0),
+                      transform: Matrix4.translationValues(delayedAnimation.value * width, 0, 0),
                       child: Bouncing(
                         onPress: () {},
                         child: Container(
@@ -449,8 +368,7 @@ class _LeaveApplyState extends State<LeaveApply>
                       height: 7,
                     ),
                     Transform(
-                      transform: Matrix4.translationValues(
-                          muchDelayedAnimation.value * width, 0, 0),
+                      transform: Matrix4.translationValues(muchDelayedAnimation.value * width, 0, 0),
                       child: Divider(
                         color: Colors.black,
                         thickness: 0.9,
@@ -465,8 +383,7 @@ class _LeaveApplyState extends State<LeaveApply>
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Transform(
-                            transform: Matrix4.translationValues(
-                                muchDelayedAnimation.value * width, 0, 0),
+                            transform: Matrix4.translationValues(muchDelayedAnimation.value * width, 0, 0),
                             child: Text(
                               "Leave History",
                               style: TextStyle(
@@ -476,8 +393,7 @@ class _LeaveApplyState extends State<LeaveApply>
                             ),
                           ),
                           Transform(
-                            transform: Matrix4.translationValues(
-                                delayedAnimation.value * width, 0, 0),
+                            transform: Matrix4.translationValues(delayedAnimation.value * width, 0, 0),
                             child: Padding(
                               padding: const EdgeInsets.all(4.0),
                               child: InkWell(
@@ -495,8 +411,7 @@ class _LeaveApplyState extends State<LeaveApply>
                       ),
                     ),
                     Transform(
-                      transform: Matrix4.translationValues(
-                          delayedAnimation.value * width, 0, 0),
+                      transform: Matrix4.translationValues(delayedAnimation.value * width, 0, 0),
                       child: Bouncing(
                         onPress: () {},
                         child: LeaveHistoryCard(
